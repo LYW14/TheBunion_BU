@@ -1,7 +1,7 @@
-import Navbar from "@/components/Navbar"
-import Footer from "@/components/Footer"
-import ArticleCard from "@/components/ArticleCard"
-import { articles } from "@/lib/sampleData"
+import Navbar from "@/app/components/Navbar"
+import Footer from "@/app/components/Footer"
+import ArticleCard from "@/app/components/ArticleCard"
+import { articles } from "@/app/lib/sampleData"
 
 export default function Home() {
   return (
@@ -13,7 +13,20 @@ export default function Home() {
           <h2 className="text-2xl font-bold mb-6">Featured News</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {articles.map(article => (
-              <ArticleCard key={article.slug} article={article} />
+              <ArticleCard
+                key={
+                  typeof article.slug === "string"
+                    ? article.slug
+                    : (article.slug && typeof article.slug === "object" && "current" in article.slug
+                        ? (article.slug as { current: string }).current
+                        : "")
+                }
+                article={{
+                  ...article,
+                  slug: typeof article.slug === "string" ? { current: article.slug } : article.slug,
+                  author: typeof article.author === "string" ? { name: article.author } : article.author
+                }}
+              />
             ))}
           </div>
         </section>
@@ -23,7 +36,20 @@ export default function Home() {
           <h2 className="text-2xl font-bold mb-6">Special Projects</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {articles.map(article => (
-              <ArticleCard key={article.slug} article={article} />
+              <ArticleCard
+                key={
+                  typeof article.slug === "string"
+                    ? article.slug
+                    : (article.slug && typeof article.slug === "object" && "current" in article.slug
+                        ? (article.slug as { current: string }).current
+                        : "")
+                }
+                article={{
+                  ...article,
+                  slug: typeof article.slug === "string" ? { current: article.slug } : article.slug,
+                  author: typeof article.author === "string" ? { name: article.author } : article.author
+                }}
+              />
             ))}
           </div>
         </section>
